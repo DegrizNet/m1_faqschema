@@ -1,0 +1,27 @@
+<?php
+$_helper    = $this->helper('catalog/output');
+$_category  = $this->getCurrentCategory();
+$question = 'catalog_question';
+$answer = 'catalog_answer';
+$first = $question.'1'; 
+if($_category->getData($first)) {  ?>
+<div class="container faq" itemscope itemtype="https://schema.org/FAQPage">
+	<div class="title"><?php echo $this->__('Frequently Asked Questions'); ?></div>
+	<dl class="wrap">
+<?php for ($i = 1; $i <= 8; $i++) {
+	$title="";
+	$description="";
+	$s = $question.$i; 
+	$p = $answer.$i; 
+	if(($title = $_category->getData($s)) && ($description = $_category->getData($p))) { ?>
+	<div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+		<dt><h4 itemprop="name"><?php echo $title; ?></h4></dt>
+		<dd itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+			<div itemprop="text" class="std"><?php echo $_helper->categoryAttribute($_category, $description, $p) ?></div>
+		</dd>
+	</div>
+<?php }
+} ?>
+	</dl>
+</div>
+<?php } ?>
